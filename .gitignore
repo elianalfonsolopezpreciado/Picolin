@@ -1,0 +1,4 @@
+# Picolin build artifacts
+vm
+*.bin
+*.exe
