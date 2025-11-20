@@ -1,154 +1,118 @@
-# Picolin Programming Language MVP
+# Picolin Programming Language
 
-A fully functional MVP for the Picolin programming language consisting of a Python compiler and a high-performance C virtual machine.
+Picolin is a dynamic, high-level programming language designed for rapid prototyping and educational purposes. It features a simple, clean syntax, a Python-based compiler, and a high-performance, stack-based virtual machine written in C99. The language is particularly well-suited for tasks involving numerical computation, basic machine learning, and interactive scripts.
 
-## Architecture
+## Features
 
-### Components
+- **Simple & Intuitive Syntax**: Easy-to-learn syntax for assignments, printing, and arithmetic.
+- **Vector Operations**: First-class support for vectors, including dot products, making it ideal for linear algebra and scientific computing.
+- **Control Flow**: `if/else` and `while` loops for building complex logic.
+- **File I/O**: `save` and `load` commands to persist and restore the VM's memory state.
+- **Interactive I/O**: `input` command to read user input and `print` to display output.
+- **Multi-language Support**: Keywords available in both English and Spanish (e.g., `print` and `imprimir`).
+- **Extensible**: The VM and compiler are designed to be easily extended with new features.
 
-1. **Virtual Machine (C99)**: Stack-based VM with double precision arithmetic
-2. **Compiler (Python)**: Lexer, parser, and bytecode generator
+## Getting Started
 
-### Instruction Set
-
-- `OP_PUSH`: Push value onto stack
-- `OP_ADD`: Add top two stack values
-- `OP_SUB`: Subtract top two stack values
-- `OP_MUL`: Multiply top two stack values
-- `OP_DIV`: Divide top two stack values
-- `OP_PRINT`: Print top stack value
-- `OP_STORE`: Store top stack value to global variable
-- `OP_LOAD`: Load global variable onto stack
-- `OP_HALT`: Halt execution
-
-## Syntax
-
-- **Assignment**: `variable <- expression`
-- **Print**: `print expression`
-- **Operators**: `+`, `-`, `*`, `/` (with proper precedence)
-- **Numbers**: Integers and floating-point numbers
-- **Variables**: Alphanumeric identifiers starting with letter or underscore
-- **Comments**: Lines starting with `#` are ignored
-
-## Building and Running
-
-### Quick Start (One-line Instructions)
+### Quick Start
 
 **Linux/macOS:**
 ```bash
-gcc -std=c99 -Wall -Wextra -O2 -o vm vm.c && python3 compiler.py example.picolin program.bin && ./vm program.bin
-```
-
-**Windows (PowerShell):**
-```powershell
-gcc -std=c99 -Wall -Wextra -O2 -o vm.exe vm.c; python compiler.py example.picolin program.bin; .\vm.exe program.bin
-```
-
-**Windows (CMD):**
-```cmd
-gcc -std=c99 -Wall -Wextra -O2 -o vm.exe vm.c && python compiler.py example.picolin program.bin && vm.exe program.bin
-```
-
-### Using Build Scripts
-
-**Linux/macOS:**
-```bash
-# Make build script executable
-chmod +x build.sh
-
-# Build and run
 ./build.sh
 ```
 
 **Windows:**
 ```cmd
-# Run build script
 build.bat
 ```
 
-### Manual Steps
+This will compile the C virtual machine, compile the example Picolin code (`example.picolin`) into bytecode (`program.bin`), and execute it.
 
-**Step 1: Compile the VM**
-```bash
-# Linux/macOS
-gcc -std=c99 -Wall -Wextra -O2 -o vm vm.c
+## Syntax Overview
 
-# Windows
-gcc -std=c99 -Wall -Wextra -O2 -o vm.exe vm.c
+The syntax is designed to be straightforward and readable.
+
+| Syntax Element        | Example                                     | Description                                         |
+| --------------------- | ------------------------------------------- | --------------------------------------------------- |
+| **Comments**          | `# This is a comment`                       | Lines starting with `#` are ignored.                |
+| **Assignment**        | `my_var <- 42`                              | Assign a value to a variable.                       |
+| **Printing**          | `print my_var`                              | Print the value of a variable or expression.        |
+| **Arithmetic**        | `result <- (a + b) * c`                     | Standard arithmetic operators with precedence.      |
+| **Vectors**           | `my_vector <- [1.0, 2.0, 3.0]`              | Create a vector of floating-point numbers.          |
+| **Dot Product**       | `dp <- vec1 dot vec2`                       | Calculate the dot product of two vectors.           |
+| **If/Else Statement** | `if x > 10 ... else ... end`                | Conditional execution. `else` is optional.          |
+| **While Loop**        | `while i < 10 ... end`                      | Loop while a condition is true.                     |
+| **User Input**        | `user_val <- input`                         | Read a number from standard input.                  |
+| **Random Number**     | `r <- rand`                                 | Get a random floating-point number between 0 and 1. |
+| **File I/O**          | `save` / `load`                             | Save or load the VM's global memory to a file.      |
+
+## Example: A Simple Neural Network Neuron
+
+Picolin's support for vector operations makes it easy to implement concepts from machine learning. Here is an example of a single artificial neuron that computes the dot product of an input vector and a weight vector.
+
+```picolin
+# Artificial Neuron Example
+# Simulates a single neuron with weights and inputs
+# Calculates: output = weights · inputs (dot product)
+
+# Define weight vector [0.5, -0.3, 0.8]
+weights <- [0.5, -0.3, 0.8]
+
+# Define input vector [1.0, 2.0, 0.5]
+inputs <- [1.0, 2.0, 0.5]
+
+# Calculate dot product (neuron output)
+output <- weights dot inputs
+
+# Print the result
+print output
 ```
 
-**Step 2: Compile Picolin source to bytecode**
-```bash
-# Linux/macOS
-python3 compiler.py example.picolin program.bin
+**To run this example:**
 
-# Windows
-python compiler.py example.picolin program.bin
+1.  Save the code above as `neural.picolin`.
+2.  Compile it: `python3 compiler.py neural.picolin neural.bin`
+3.  Run it: `./vm neural.bin`
+
+**Expected output:**
+```
+0.3
 ```
 
-**Step 3: Run the VM**
-```bash
-# Linux/macOS
-./vm program.bin
+## Instruction Set (Opcodes)
 
-# Windows
-vm.exe program.bin
-```
+The Picolin VM uses the following set of instructions.
 
-## Example
+| Opcode             | ID | Description                                            |
+| ------------------ | -- | ------------------------------------------------------ |
+| `OP_PUSH`          | 0  | Push a double value onto the stack.                    |
+| `OP_ADD`           | 1  | Add the top two stack values.                          |
+| `OP_SUB`           | 2  | Subtract the top two stack values.                     |
+| `OP_MUL`           | 3  | Multiply the top two stack values.                     |
+| `OP_DIV`           | 4  | Divide the top two stack values.                       |
+| `OP_PRINT`         | 5  | Print the top value of the stack.                      |
+| `OP_STORE`         | 6  | Store the top stack value to a global variable.        |
+| `OP_LOAD`          | 7  | Load a global variable onto the stack.                 |
+| `OP_VECTOR`        | 8  | Create a vector from values on the stack.              |
+| `OP_DOT`           | 9  | Calculate the dot product of the top two vectors.      |
+| `OP_RELU`          | 10 | Apply the ReLU activation function to the top value.   |
+| `OP_GT`            | 11 | Greater than comparison.                               |
+| `OP_LT`            | 12 | Less than comparison.                                  |
+| `OP_EQ`            | 13 | Equality comparison.                                   |
+| `OP_JUMP_IF_FALSE` | 14 | Jump to a new instruction pointer if top of stack is 0. |
+| `OP_JUMP`          | 15 | Unconditionally jump to a new instruction pointer.     |
+| `OP_RAND`          | 16 | Push a random float (0-1) onto the stack.              |
+| `OP_INPUT`         | 17 | Read a double from stdin and push it onto the stack.   |
+| `OP_SAVE_FILE`     | 18 | Save global variables to `picolin.mem`.                |
+| `OP_LOAD_FILE`     | 19 | Load global variables from `picolin.mem`.              |
+| `OP_HALT`          | 20 | Halt execution.                                        |
 
-The included `example.picolin` file contains:
-```
-# Complex mathematical operation example
-# Calculate: (3.14 * 2.5 + 1.5) / 2.0 - 0.25
+## Architecture
 
-result <- 3.14 * 2.5 + 1.5 / 2.0 - 0.25
-print result
-```
-
-Expected output:
-```
-8.35
-```
-(Note: Due to floating-point precision, you may see `8.350000000000001` or similar)
-
-## File Structure
-
-- `vm.h` - VM header with struct and opcode definitions
-- `vm.c` - VM implementation with fetch-decode-execute loop
-- `compiler.py` - Python compiler with lexer and parser
-- `example.picolin` - Sample Picolin program
-- `build.sh` - Build script for Unix systems
-- `build.bat` - Build script for Windows
-- `README.md` - This file
+-   **Virtual Machine**: A stack-based VM written in C99 for performance.
+-   **Compiler**: A recursive descent parser and bytecode generator written in Python.
 
 ## Requirements
 
-- GCC compiler (C99 support)
-- Python 3.x
-- Standard C library
-- Python struct module (built-in)
-
-## Technical Details
-
-### VM Architecture
-
-The VM uses a stack-based architecture optimized for decimal precision:
-- **Stack**: Array of doubles (1024 elements)
-- **Globals**: Array of doubles (256 variables)
-- **Instruction Format**: 
-  - Opcode: 1 byte
-  - Operands: 4 bytes (int) or 8 bytes (double) as needed
-
-### Compiler Architecture
-
-The compiler uses a recursive descent parser with operator precedence:
-- **Lexer**: Regex-based tokenization
-- **Parser**: Recursive descent with proper operator precedence
-- **Code Generation**: Direct bytecode emission using Python's struct module
-
-### Bytecode Format
-
-- Opcodes are single bytes (0-8)
-- Double values are stored in little-endian format (8 bytes)
-- Integer indices are stored in little-endian format (4 bytes)
+-   GCC compiler (or any C99-compatible compiler)
+-   Python 3.x
