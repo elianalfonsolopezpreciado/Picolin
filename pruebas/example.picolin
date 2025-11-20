@@ -1,0 +1,7 @@
+# Complex mathematical operation example
+# Calculate: 3.14 * 2.5 + 1.5 / 2.0 - 0.25
+# With operator precedence: (3.14 * 2.5) + (1.5 / 2.0) - 0.25
+
+result <- 3.14 * 2.5 + 1.5 / 2.0 - 0.25
+print result
+

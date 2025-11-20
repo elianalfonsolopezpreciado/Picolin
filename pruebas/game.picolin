@@ -1,0 +1,30 @@
+# Guess the Number Game
+# AI generates a secret number and user tries to guess it
+
+# Generate secret number between 0 and 10
+secret <- rand * 10
+
+# Flag to control loop (1 = continue, 0 = stop)
+playing <- 1
+
+# Game loop
+while playing > 0
+    # Ask user for input
+    guess <- input
+    
+    # Check if guess is equal to (or very close to) secret number
+    # Check if difference is small (within 0.1)
+    diff <- guess - secret
+    diff_squared <- diff * diff
+    # If diff_squared < 0.01 (i.e., |diff| < 0.1), they're close enough
+    close_enough <- diff_squared < 0.01
+    
+    # If correct (close enough), print 1 and stop playing
+    if close_enough > 0
+        print 1.0
+        playing <- 0
+    else
+        print 0.0
+    end
+end
+

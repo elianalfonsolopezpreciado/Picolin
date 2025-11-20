@@ -1,0 +1,24 @@
+# AI Training Simulation
+# Simulates training loop with loss reduction
+
+# Initialize loss
+loss <- 10.0
+
+# Initialize epoch counter
+epoch <- 0
+
+# Training loop: continue while loss > 0.5
+while loss > 0.5
+    # Print current epoch
+    print epoch
+    
+    # Simulate learning: reduce loss
+    loss <- loss - 1.5
+    
+    # Increment epoch
+    epoch <- epoch + 1
+end
+
+# Training completed - print final epoch count
+print epoch
+

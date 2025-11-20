@@ -1,0 +1,26 @@
+# Complete Neuron Simulation with Decision Logic
+# Simulates a neuron: dot product + bias + ReLU + decision
+
+# Define weight vector
+weights <- [0.5, -0.3, 0.8]
+
+# Define input vector
+inputs <- [1.0, 2.0, 0.5]
+
+# Calculate dot product (weights · inputs)
+dot_result <- weights dot inputs
+
+# Add bias
+bias <- -0.2
+neuron_output <- dot_result + bias
+
+# Apply ReLU activation
+activated <- relu neuron_output
+
+# Decision: if activated > 0, neuron is ON (print 1), else OFF (print 0)
+if activated > 0
+    print 1.0
+else
+    print 0.0
+end
+

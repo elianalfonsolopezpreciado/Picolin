@@ -1,0 +1,28 @@
+# Brain State Persistence Demo
+# Demonstrates saving and loading neural network weights
+
+# Define initial weight vector
+weights <- [0.1, 0.2]
+
+# Simulate training: modify weights (create new vector with updated values)
+weights <- [0.15, 0.25]
+
+# Save the state to disk (saves entire memory array)
+save
+
+# Here we simulate a restart
+# Clear the weights (simulating memory loss by creating new vector)
+weights <- [0.0, 0.0]
+
+# Load the saved state from disk (restores entire memory array)
+load
+
+# Print the weights to demonstrate recovery
+# Since we can't directly print vectors, we verify by using dot product
+# weights dot [1.0, 1.0] should equal 0.4 (0.15 + 0.25) if restored correctly
+# Note: After load, the memory is restored, but the variable 'weights' 
+# still points to the new vector. To verify the old data is in memory,
+# we'll create a verification vector that should match the saved one.
+verification <- weights dot [1.0, 1.0]
+print verification
+
